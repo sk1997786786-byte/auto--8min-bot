@@ -1,0 +1,19 @@
+import os,requests,random,csv,io
+from moviepy.editor import *
+SHEET_ID="1hb3WCb4hBcaA4Xz5id7YLyCAcpRRSx2tKk8qHKv6FAM"
+def get_topic():
+ r=requests.get(f"https://docs.google.com/spreadsheets/d/{SHEET_ID}/export?format=csv").text
+ return random.choice([x[0] for x in list(csv.reader(io.StringIO(r)))[1:]])
+def make():
+ t=get_topic(); print(t)
+ v=requests.get(f"https://pixabay.com/api/videos/?key={os.getenv('PIXABAY_KEY')}&q={t.split()[0]}&per_page=10").json()
+ urls=[h['videos']['medium']['url'] for h in v['hits']]
+ clips=[]; tf=[]
+ for u in urls*6:
+  fn=f"t{len(tf)}.mp4"; open(fn,'wb').write(requests.get(u).content); tf.append(fn)
+  try: clips.append(VideoFileClip(fn).subclip(0,8).resize((1280,720)))
+  except: continue
+  if sum(c.duration for c in clips)>=480: break
+ final=concatenate_videoclips(clips).subclip(0,480)
+ final.write_videofile("final_8min.mp4",fps=24,codec='libx264',audio=False)
+if __name__=="__main__": make()
