@@ -18,4 +18,4 @@ jobs:
       - env:
           CLIENT_SECRET_JSON: ${{ secrets.CLIENT_SECRET_JSON }}
           TOKEN_JSON: ${{ secrets.TOKEN_JSON }}
-        run: python bot.p
+        run: python bot.py
