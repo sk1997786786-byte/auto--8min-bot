@@ -1,9 +1,9 @@
 name: Auto-3-Videos-YouTube
 on:
   schedule:
-    - cron: '0 5 * * *' # 10am PK
-    - cron: '0 10 * * *' # 3pm PK
-    - cron: '0 15 * * *' # 8pm PK
+    - cron: '0 5 * * *'
+    - cron: '0 10 * * *'
+    - cron: '0 15 * * *'
   workflow_dispatch:
 jobs:
   build:
@@ -16,7 +16,6 @@ jobs:
       - run: sudo apt-get update && sudo apt-get install -y ffmpeg
       - run: pip install -r requirements.txt
       - env:
-          YT_CLIENT_ID: ${{ secrets.YT_CLIENT_ID }}
-          YT_CLIENT_SECRET: ${{ secrets.YT_CLIENT_SECRET }}
-          YT_REFRESH_TOKEN: ${{ secrets.YT_REFRESH_TOKEN }}
-        run: python bot.py
+          CLIENT_SECRET_JSON: ${{ secrets.CLIENT_SECRET_JSON }}
+          TOKEN_JSON: ${{ secrets.TOKEN_JSON }}
+        run: python bot.p
