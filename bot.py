@@ -76,6 +76,3 @@ topic = random.choice(TOPICS)
 file = f"video_{today}.mp4"
 make_video(topic, file)
 upload_yt(file, topic)
-
-
-
